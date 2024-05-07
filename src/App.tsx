@@ -7,7 +7,6 @@
 * EditTaskWindow
 * */
 import './App.css';
-import TasksCards from "./TasksCards";
 import AddTask from "./AddTask";
 
 function App() {
