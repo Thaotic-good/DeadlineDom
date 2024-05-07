@@ -4,11 +4,11 @@
 * 3. button: Completed
 * 4. button: DOMINATED
 * 5. drop: 1.edit 2.delete*/
-import React, {useState} from "react";
+import React from "react";
 import axios from "axios"
 
 function TasksCards(){
-    const [tasks, setTasks] = useState([])
+    const [tasks, setTasks] = React.useState([])
 
     return(
         <>
