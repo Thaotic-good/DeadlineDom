@@ -15,11 +15,10 @@ function TasksCards() {
     return (
         <>
             <div
-                className="w-full max-w-sm border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <div className="bg-red-200 flex justify-end relative px-4 pt-4" onClick={handleClickDropMenu}>
+                className="w-full max-w-sm border border-gray-200 rounded-lg shadow">
+                <div className="flex justify-end relative px-4 pt-4" onClick={handleClickDropMenu}>
                     <button id="dropdownButton" data-dropdown-toggle="dropdown"
-                            className="bg-red-500 inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4
-                                 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
+                            className="bg-gray-700 inline-block text-gray-500 hover:bg-gray-600 rounded-lg text-sm p-1.5"
                             type="button">
                         <span className="sr-only">Open dropdown</span>
                         <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +30,7 @@ function TasksCards() {
                     </button>
                     {showDropMenu &&
                         <div id="dropdown"
-                             className="absolute top-50% right--200 z-10 text-base list-none bg-white divide-y divide-gray-100 rounded-lg
+                             className="absolute top-12 -right-14 z-10 text-base list-none bg-white divide-y divide-gray-100 rounded-lg
                          shadow w-fit dark:bg-gray-700">
                             <ul className="py-2" aria-labelledby="dropdownButton">
                                 <li>
