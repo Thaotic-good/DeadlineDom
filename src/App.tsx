@@ -8,12 +8,15 @@
 * */
 import './App.css';
 import AddTask from "./AddTask";
+import {TaskRenderProvider} from "./TaskRenderContext";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-          <AddTask/>
+          <TaskRenderProvider>
+              <AddTask/>
+          </TaskRenderProvider>
       </header>
     </div>
   );

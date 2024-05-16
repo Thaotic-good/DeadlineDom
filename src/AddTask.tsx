@@ -1,10 +1,9 @@
 /*TASKS:
-* 1. <inputs> = will collect/contain data
-* - does every input need to be a separate state? I think that yes
-* 2. setCompleteTask = setter function will load this into a completeTask object
-* 3. there needs to be an array of completeTask objects, that will be passed via Context to TaskCard component then be rendered*/
+* 2. validity checks
+* */
 import TasksCards from "./TasksCards";
 import React from "react";
+import {useTaskRender} from "./TaskRenderContext"
 
 function AddTask() {
     const [task, setTask] =
@@ -15,6 +14,7 @@ function AddTask() {
             description: ""
         })
     const [taskList, setTaskList] = React.useState([{}])
+    const {setTaskToRender} = useTaskRender()
     // const [attemptedSubmit, setAttemptedSubmit] = React.useState(false)
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +36,8 @@ function AddTask() {
         console.log(taskList)
     }
     React.useEffect(()=>{
-        console.log()
-    })
+        setTaskToRender(taskList)
+    },[setTaskToRender, taskList])
     return (
         <>
             <TasksCards/>
@@ -51,7 +51,7 @@ function AddTask() {
                    focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="Task name"/>
-                    <input type="email" name="name" onChange={handleInputChange} value={task.name}
+                    <input type="text" name="name" onChange={handleInputChange} value={task.name}
                            aria-describedby="helper-text-explanation"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="Name of the task"/>

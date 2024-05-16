@@ -3,10 +3,13 @@
 * 4. button: Failed = card will flip, user will read a message, card will disappear
 * 5. drop: 1.edit 2.delete*/
 import React from "react";
+import {useTaskRender} from "./TaskRenderContext";
 
 function TasksCards() {
     const [tasks, setTasks] = React.useState(["8.5.2024"])
     const [showDropMenu, setShowDropMenu] = React.useState(false)
+    const {taskToRender} = useTaskRender()
+
 
     const handleClickDropMenu = ()=>{
         setShowDropMenu(!showDropMenu)
