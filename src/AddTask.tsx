@@ -1,47 +1,58 @@
 /*TASKS:
-* 2. validity checks
+* 2.
+* 3. validity checks: const [attemptedSubmit, setAttemptedSubmit] = React.useState(false)
 * */
 import TasksCards from "./TasksCards";
 import React from "react";
 import {useTaskRender} from "./TaskRenderContext"
-
+interface Task {
+    id: string;
+    deadline: string;
+    name: string;
+    description: string;
+}
 function AddTask() {
+
+    const [taskList, setTaskList] = React.useState<Task[]>([])
+    const {setTasksToRender} = useTaskRender()
     const [task, setTask] =
-        React.useState({
+        React.useState<Task>({
             id: "",
             deadline: "",
             name: "",
             description: ""
         })
-    const [taskList, setTaskList] = React.useState([{}])
-    const {setTaskToRender} = useTaskRender()
-    // const [attemptedSubmit, setAttemptedSubmit] = React.useState(false)
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault()
-        const {name, value} = event.target
-    /*destructuring `event.target` object (=DOM element that triggered the event) and not `task` object */
-    /*`name` = accessing name of input etc.*/
-        setTask((prevTask)=>({
-            ...prevTask, /* ... = spread operator*/
-            [name]:value
-    /*use curly braces to create new object property names (with computed property names update)
-    since `name` of the input && properties are the same*/
+        const {name, value} = event.target /*destructuring `event.target` object (=DOM element that triggered the event) and not `task` object */
+                                                        /*`name` = accessing name of input etc.*/
+        setTask((prevTask)=>({ /*used () around the object literal instead of `return` because body of a function {} and object {} are the same syntax */
+            ...prevTask,                                        /*use curly braces to create new object property names (with computed property names update)*/
+            [name]:value                                        /*since `name` of the input && properties are the same*/
         }))
-    /*used () around the object literal instead of `return` because body of a function {} and object {} are the same syntax */
     }
     const handleSubmit = (event:React.MouseEvent<HTMLButtonElement>)=>{
-        setTaskList(prevTaskList=> [...prevTaskList, task ]
-        )
-        console.log(taskList)
+        event.preventDefault()
+        const currentId =  Date.now().toString()
+
+        const updatedTask: Task = {
+            ...task,
+            id: currentId,
+        }
+
+        setTask(updatedTask)
+        setTaskList(prevTaskList=> [...prevTaskList, {...task, id: currentId} ])
+        setTask({...task, id: "", deadline: "", name: "", description: ""}) /*...spreading existing properties, re-setting states*/
     }
+
     React.useEffect(()=>{
-        setTaskToRender(taskList)
-    },[setTaskToRender, taskList])
+        setTasksToRender(taskList)
+    },[setTasksToRender, taskList])
     return (
         <>
             <TasksCards/>
-            <form className="shadow w-1/3 m-5">
+            <form className="shadow w-fit m-5 ">
                 <label htmlFor="helper-text" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Insert
                     task </label>
                 <div>
@@ -50,11 +61,7 @@ function AddTask() {
                            className="bg-gray-50 border border-blue-200 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500
                    focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                           placeholder="Task name"/>
-                    <input type="text" name="name" onChange={handleInputChange} value={task.name}
-                           aria-describedby="helper-text-explanation"
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                           placeholder="Name of the task"/>
+                           placeholder="Due date"/>
                     <input type="text" name="description" onChange={handleInputChange} value={task.description}
                            aria-describedby="helper-text-explanation"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -65,13 +72,6 @@ function AddTask() {
                         focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Submit
                     </button>
-                    <div className="flex gap-2">
-                        <p id="helper-text-explanation" className="text-sm text-gray-500 dark:text-gray-400">
-                            Out of ideas?</p>
-                        <a href="https://mystudentvoices.com/what-are-good-habits-to-start-young-that-will-significantly-make-your-adult-life-easier-f6983c666280"
-                           className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-                            Helpful guide</a>
-                    </div>
                 </div>
             </form>
         </>
