@@ -26,7 +26,8 @@ function TasksCards() {
 
     const fetchTasks = async () => {
         try {
-            const response = await axios.get("https://jsonplaceholder.typicode.com/users/1/todos");
+            const response =
+                await axios.get("https://jsonplaceholder.typicode.com/users/1/todos");
             setTasks(response.data);
         } catch (error) {
             console.error("Error fetching tasks:", error);
@@ -60,16 +61,22 @@ function TasksCards() {
 
     const handleUpdate = async (taskID: number) => {
         try {
-            await axios.put(`https://jsonplaceholder.typicode.com/users/1/todos/${taskID}`, {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    id: taskID,
-                    title: {updatedTitle},
-                    userId: 1,
-                })
-            })
+            const response = await axios.put<Task>
+            (`https://jsonplaceholder.typicode.com/users/1/todos/${taskID}`, {
+                // headers: {
+                //     "Content-Type": "application/json"
+                // },
+                // body: JSON.stringify({
+                //     id: taskID,
+                //     title: {updatedTitle},
+                //     userId: 1,
+                // }
+                // )
+                updatedTitle
+            });
+            const updatedTasks = tasks.map((task)=> (task.id ===taskID? response.data : task));
+            setTasks(updatedTasks)
+            setUpdatedTitle("")
         } catch (error) {
             console.error("Error updating task:", error)
         }
